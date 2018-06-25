@@ -1,0 +1,4 @@
+# Embark DTwitter Workshop
+In this [workshop](https://github.com/status-im/embark-dtwitter-workshop/tree/start/instructions), we'll explore how can we use Embark to simplify the development of a decentralised Twitter dApp (or DTwitter), and we'll be showing off some of the killer features of Embark v3.2. We will start off using an Embark Docker image to quickly bootstrap our Embark environment, then we'll download the DTwitter dApp template and off we go! Next, we'll walk through developing our DTwitter dApp using test-driven development.
+
+## ☛ [Let's go!!](https://github.com/status-im/embark-dtwitter-workshop/tree/start/instructions) ☚
