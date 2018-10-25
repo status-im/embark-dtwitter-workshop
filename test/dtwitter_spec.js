@@ -30,6 +30,7 @@ contract("DTwitter contract", function () {
   it("transaction to create a dtwitter user 'testhandle' with description 'test description' should be successful", async function () {
 
     // do the create account
+    const createAccountTx = await DTwitter.methods.createAccount(username, description).send();
 
     // assert that the transaction was successful
     assert.equal(createAccountTx.status, true);
@@ -39,6 +40,7 @@ contract("DTwitter contract", function () {
   it("should have created a user 'testhandle'", async function () {
 
     // get user details from contract
+    const user = await DTwitter.methods.users(web3.utils.keccak256(username)).call();
 
     assert.equal(user.username, username);
     assert.equal(user.description, description);
@@ -48,6 +50,7 @@ contract("DTwitter contract", function () {
   it("should have created an owner for our defaultAccount", async function () {
     
     // read from the owners mapping the value associated with the defaultAccount
+    const usernameHash = await DTwitter.methods.owners(web3.eth.defaultAccount).call();
 
     // check the return value from owners mapping matches
     assert.equal(usernameHash, web3.utils.keccak256(username));
@@ -57,6 +60,7 @@ contract("DTwitter contract", function () {
     const usernameHash = web3.utils.keccak256(username);
 
     // check the usernamehash exists
+    const exists = await DTwitter.methods.userExists(usernameHash).call();
 
     assert.equal(exists, true);
   });
@@ -68,8 +72,10 @@ contract("DTwitter contract", function () {
     const updatedImageHash = 'QmWvPtv2xVGgdV12cezG7iCQ4hQ52e4ptmFFnBK3gTjnec';
 
     // call edit account
+    await DTwitter.methods.editAccount(usernameHash, updatedDescription, updatedImageHash).send();
     
     // then fetch the user details with the usernamehash
+    const updatedUserDetails = await DTwitter.methods.users(usernameHash).call();
 
     assert.equal(updatedUserDetails.description, updatedDescription);
     assert.equal(updatedUserDetails.picture, updatedImageHash);
@@ -79,6 +85,7 @@ contract("DTwitter contract", function () {
     const usernameHash = web3.utils.keccak256(username);
     
     // send the tweet
+    await DTwitter.methods.tweet(tweetContent).send();
     
     // subscribe to new tweet events
     DTwitter.events.NewTweet({
